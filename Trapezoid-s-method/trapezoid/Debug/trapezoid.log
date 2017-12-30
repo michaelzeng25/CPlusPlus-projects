@@ -1,0 +1,5 @@
+﻿  trapezoid.cpp
+c:\users\michael zeng\onedrive\my c++ projects\trapezoid\trapezoid\trapezoid.cpp(40): warning C4101: 'answer': unreferenced local variable
+c:\users\michael zeng\onedrive\my c++ projects\trapezoid\trapezoid\trapezoid.cpp(40): warning C4101: 'x': unreferenced local variable
+  trapezoid.vcxproj -> C:\Users\Michael Zeng\OneDrive\My c++ projects\trapezoid\Debug\trapezoid.exe
+  trapezoid.vcxproj -> C:\Users\Michael Zeng\OneDrive\My c++ projects\trapezoid\Debug\trapezoid.pdb (Full PDB)

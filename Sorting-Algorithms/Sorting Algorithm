@@ -1,0 +1,268 @@
+#include <iostream>
+#include <vector>
+#include<ctime>
+using namespace std;//small projjects' choice
+
+/******************************************************************************************************
+A CPP project in sorting. The goal is to help myself understand the algorithm of different kind of sorting method. 
+A random amound of numbers will be generated and sorted by different sorting algorithms. 
+each algorithm will be timed to compare the efficiency of each.
+the list will be sorted from small to large
+*******************************************************************************************************/
+
+void BubbleSort(vector<int> &v, int &size);//using refference to pass the values is faster than copying the value each time
+void SelectionSort(vector<int> &v, int &size);
+void InsertionSort(vector<int> &v, int &size);
+void quickSort(vector <int> &v, int &size);
+void MergeSort(vector <int> v, int, int, int);
+void Merge(vector<int> v, int, int, int, int);
+
+
+int main()
+{
+	//first, generate a amount of numbers and use a vector to hold it
+	vector<int> v;
+	int size;//the number of integers to sort
+	cout << "Enter the size of the number you wish to sort--";
+	cin >> size;
+	//generate random numbers
+	srand(time(0));//make sure numbers are different on each run in while loop
+	for (int x = 0; x < size; x++)	v.push_back(rand() % size);//the generated numbers will be within the range of 0 to size
+
+	clock_t    s1;
+	s1 = clock();
+	//here start with the algorithms
+	cout << "Buble sort result：" << endl;
+	BubbleSort(v, size);
+	cout << endl;
+	cout << "Time: " << (clock() - s1) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+	cout << endl;
+
+	clock_t    s2;
+	s2 = clock();
+	cout << "Selection sort result:" << endl;
+	SelectionSort(v, size);
+	cout << endl;
+	cout << "Time: " << (clock() - s2) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+	cout << endl;
+
+	clock_t    s3;
+	s3 = clock();
+	cout << "Insertion sort result:" << endl;
+	InsertionSort(v,size);
+	cout << endl;
+	cout << "Time: " << (clock() - s3) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+	cout << endl;
+
+	clock_t    s4;
+	s4 = clock();
+	cout << "Quick sort result:" << endl;
+	quickSort(v, size);
+	cout << endl;
+	cout << "Time: " << (clock() - s4) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << endl;
+	cout << endl;
+
+	
+	int start=0, end=size-1;
+	clock_t s5;
+	s5 = clock();
+	cout << "Merge sort result:" << endl;
+	MergeSort(v,start,end,size);
+	cout << endl;
+	cout << "Time: " << (clock() - s5) / (double)(CLOCKS_PER_SEC / 1000) << " MS" << endl;
+	cout << endl;
+
+	system("pause");
+
+}
+void BubbleSort(vector<int> &v, int &size)
+{
+	//the Bubble sort algorithm is just like its name. think about how bubbles float to the top of a glass. 
+	//It is a beautiful name, but the time complexity cant be appreciated. 
+	//the time complexity is from 0 to n^2, similar to nested for loop
+	int y = 1;
+	int size2 = size*size;
+	while (size2--)//comparing to nested for loop, this is similar, the former is n*n, this one is from 0 straight to n^2, 
+				  // but this one is better exercise than nested for loop
+	{
+		if (v[y] < v[y - 1]) swap(v[y], v[y - 1]);
+		y++;
+		if (y == size ) y = 1;
+	}
+	for (auto &a :v) cout << a << " ";//c++ 14 feature
+/*
+3214=2314-2134-2134 then it goes to second round
+time complexity is O(n^2) in worse case, O(n) in average and best cases
+*/
+}
+
+void SelectionSort(vector<int> &v, int &size)
+{
+	//compare the first element in the list to every other elements. in the end, the first element will be settle down.
+	for (int x = 0; x < size; x++)
+	{
+		for (int y = x+1; y < size; y++)
+		{
+			if (v[x] > v[y]) swap(v[x], v[y]);
+		}
+	}
+	for (auto &a : v) cout << a << " ";
+
+/*
+3214=2314-1324-then goes to secon round
+time complexity is O(n^2) in all cases
+*/
+}
+
+void InsertionSort(vector<int> &v, int &size)
+{
+	//similar to buble sort, but when a larger number is detected, it will not only be switched to 1 spot to the right, but it will continue to compare those to its left side
+	//until encounter one that is not bigger than itself.
+	int temp;//copy the value of the one that is out of order
+	int location;//will be used as decrement to compare the out of order element to those on its left
+
+	for (int x = 1; x < size; x++)
+	{
+		if (v[x] < v[x - 1])
+		{
+			temp = v[x];
+			location = x;
+			while (location > 0 && v[x - 1] > temp)//process those on th eleft side of temp that are bigger
+			{
+				v[location] == v[location - 1];//like, [3]<[2], then switch their position
+				location--;//keep checking until no more numbers on the leftside is bigger then those on the right.
+			}
+			v[location] = temp;//there will be no more numbers on the left of v[location] is < temp, 
+			//list=231, temp=1, p=2, list=233, p=1
+			//second run
+			//p>0, 3>1, list=223, 
+			//while loop=false
+			//v[0]=1, list=123
+		}
+	}
+	for (auto &a : v) cout << a << " ";
+	
+	//time complexity is O(n ^ 2) in worse case, O(n) in average and best cases
+
+}
+
+void quickSort(vector <int> &v, int &size)
+{
+	//int size=arr.size();//size will change on each recurssion
+	
+	if (v.size() < 2)//every element in the list is not a single list
+		return;
+
+	vector<int> left;
+	vector<int> right;
+
+	int pivot = v[0];//the first element of both left anf right will be the privot number
+					// in good practice, the pivot number should be randomly chosen.
+
+	for (int x = 1; x<v.size(); x++)
+	{
+		if (v[x]<pivot)
+			left.push_back(v[x]);//numbers less than the pivot number is pushed into the left vector
+		else if (v[x] >= pivot)
+			right.push_back(v[x]);//numbers greater than the pivot number is pushed into the right vector
+	}
+	//recursiive to divide the 2 new vectors
+	quickSort(left,size);
+	quickSort(right,size);
+
+	int i = 0;
+	//hold all the elements from the left
+	for (int x = 0; x<left.size(); x++)
+	{
+		v[i++] = left[x];
+	}
+	//hold the pivot number
+	v[i++] = pivot;
+
+	//hold the elements from the right
+	for (int x = 0; x<right.size(); x++)
+	{
+		v[i++] = right[x];
+	}
+
+	if (v.size() == size)//only start to print the sorted list out after every element is placed in v from above
+	{
+		for (auto &a : v) 
+			
+		cout << a << " ";
+		cout << endl;
+	}
+/*
+if i have 783921 pivot=7
+                                      7
+           L=321 pivot=3                                                   R=89 pivot=8
+		        3                                                              8
+	   L=21  pivot=2                                                                        R=9
+            2
+	 L=1
+	from the middle section of the function
+	A[]=1 2 3 7 8 9
+	time complexityis O(nlog n) in best and average cases, O(n^2) in worse case
+*/
+}
+
+void MergeSort(vector <int> v, int start, int end, int size)
+{
+	if (start < end)
+	{
+		int mid = (start + end) / 2;
+		MergeSort(v, start, mid, size);
+		MergeSort(v, mid + 1, end, size);
+
+		Merge(v, start, mid, end, size);
+	}
+
+}
+void Merge(vector <int> v, int start, int middle, int end, int size)
+{
+	int p = start,  q= middle + 1, k=0;
+	vector<int> v2(end - start + 1);//
+
+	for (int x = start; x <= end; x++)
+	{
+		if (p > middle) v2[k++] = v[q++];
+		else if (q > end) v2[k++] = v[p++];
+		else if (v[p] < v[q]) v2[k++] = v[p++];
+		else v2[k++] = v[q++];
+
+	}
+	for (int x = 0; x < k; x++)
+	{
+		v[start++] = v2[x];
+	}
+	if (v2.size()==size)//v2 in the end will have the same size as the original vector
+	{
+		for (auto &a : v) cout << a << " ";
+	}
+	/*
+	if the list = 978321  start=0, middle = 0+5/2=2, end =5
+	                             9,7,8,3,2,1
+				       9,7,8                                   3,2,1 
+	9,7                 8                       3,2                       1
+9        7                                3           2
+first call, merge(A, 0, 0, 1)
+start=0, mid=0, because the recursion starts from 9, and 9 is mergesort(A, 0, 0)
+end=1 is from 7 because mergesort(A, 1, 1)=7
+result in 7,9
+second call, merge merge(A, 0,1,2)
+start=0, mid=1 from mergesort(A, 0, 1)=9,7
+end=2 is from 8 because mergesort(A,2,2)=8
+After these 2 calls we will get 7,8,9
+third call, merge(A,3,3,4)
+start=3 , mid=3 is from mergesort(A, 3,3)=3
+end=4 is from mergesort(A, 4,4)=2
+result in 2,3
+forth call merge(A,3,4,5)
+start=3, mid=4 is from mergesort(A,3,4)=3,2
+end=4 is from mergesort(A,5,5)=1
+result in 1,2,3
+fifth call, merge(A, 0,2,5)
+after the precious calls, obtain 7,8,9 first and then 1,2,3
+the last call will put the list in the correct order =1,2,3,,7,8,9
+	*/
+}

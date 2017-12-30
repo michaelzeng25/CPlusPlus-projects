@@ -1,0 +1,7 @@
+﻿  stdafx.cpp
+  eatcake.cpp
+c:\users\michael zeng\onedrive\my c++ projects\finished or in the process of improving\eatcake\eatcake\eatcake.cpp(31): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\michael zeng\onedrive\my c++ projects\finished or in the process of improving\eatcake\eatcake\eatcake.cpp(33): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+  eatcake.vcxproj -> C:\Users\Michael Zeng\OneDrive\My c++ projects\Finished or in the process of improving\eatcake\Debug\eatcake.exe
+  eatcake.vcxproj -> C:\Users\Michael Zeng\OneDrive\My c++ projects\Finished or in the process of improving\eatcake\Debug\eatcake.pdb (Full PDB)
