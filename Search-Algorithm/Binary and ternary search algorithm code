@@ -1,0 +1,83 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+void binary_search( vector<int> &v, int len, int target)
+{
+
+	int firstnumber =0;
+	int lastnumber = len - 1;//these two tells the program to use the index number instead of the elements
+	int mid;
+	bool found = false;//
+	while (firstnumber <= lastnumber && !found)
+	{
+		mid = (firstnumber + lastnumber) / 2;
+
+		//if has already reached the target
+		if (v[mid] == target)
+			found = true;
+
+		//if has not yet reach the target, then set up the new interals, 
+		else if (v[mid] > target)
+			lastnumber = mid - 1;
+		else firstnumber = mid + 1;
+	}
+//	cout << found? "It is in the location of "+mid : "not found";//true or false
+	if (found)
+	{
+		cout << "it is in the location of " << mid<<endl;;
+	}
+	else
+		cout << "not in the list" << endl;
+}
+int Ternary_search(vector<int> &v, int begin, int last, int target)
+{
+	
+	if(last>=1)//
+	{
+		int mid1=begin+(last-begin)/3; //begin----mid1----mid1----last 
+		int mid2=last-(last-begin)/3;
+		if(v[mid1]==target) 
+		{
+
+			return mid1;
+		}
+		if(v[mid2]==target) 
+		{
+			
+			return mid2;
+		}
+		if(target<v[mid1])  return Ternary_search(v, begin, mid1-1, target);
+		else if(target>v[mid2])  return Ternary_search(v, mid2+1, last, target);
+		else return Ternary_search(v, mid1+1, mid2-1, target);
+	}
+	return 0;
+}
+int main()
+{
+	vector<int> v;
+	int size;//the number of integers to sort
+	cout << "Enter the size of the list--";
+	cin >> size;
+	cout<<"Enter the number you want to look for--";
+	int target;
+	cin>>target;
+	//generate random numbers
+	srand(time(0));//make sure numbers are different on each run in while loop
+	for (int x = 0; x < size; x++)	v.push_back(rand() % size);
+	sort(v.begin(), v.end());
+	v.erase(unique(v.begin(), v.end()), v.end());//just keep 1 for numbers that are the same
+	for(auto &a:v) cout<<a<<"   ";
+	cout<<endl;
+	binary_search(v, v.size(), target);
+	cout<<endl;
+	
+	int an=Ternary_search(v,0,v.size(),target);
+	if(an==0)
+		cout<<" yep, no"<<endl;
+		else
+		cout<<"yes in "<<Ternary_search(v,0,v.size(),target)<<endl;
+	system("pause");
+}
+q
