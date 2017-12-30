@@ -1,0 +1,3 @@
+﻿  fstream for product.cpp
+c:\users\michael zeng\onedrive\my c++ projects\finished or in the process of improving\fstream for product\fstream for product\fstream for product.cpp(38): error C2371: 'numitems': redefinition; different basic types
+  c:\users\michael zeng\onedrive\my c++ projects\finished or in the process of improving\fstream for product\fstream for product\fstream for product.cpp(15): note: see declaration of 'numitems'

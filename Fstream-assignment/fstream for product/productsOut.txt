@@ -1,0 +1,8 @@
+ ProductID    Description     Price     Stock     Total
+  01331DEC         Wrench     12.75     85.00   1083.75
+  01331DEC          Anvil     15.00    100.00   1500.00
+  01331DEC            Saw      9.50     23.00    218.50
+  01331DEC          Nails      6.30     15.00     94.50
+  01331DEC           Tape      3.15     75.00    236.25
+  01331DEC            Cat      3.33     98.00    326.34
+                                       grandtotal 3459.34

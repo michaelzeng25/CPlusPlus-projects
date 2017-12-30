@@ -1,0 +1,19 @@
+// factorial.cpp : Defines the entry point for the console application.
+//
+#include <iostream>
+using namespace std;
+#include "stdafx.h"
+
+
+int main()
+{
+	int n;
+	int factorial = 1;
+	cout << "Enter the number you wish to find the factorial--";cin >> n;
+	for (int f = 1; f <= n; f++)
+		factorial = factorial *f;
+
+	cout << "The answer is " << factorial << endl;
+	system("pause");
+}
+
